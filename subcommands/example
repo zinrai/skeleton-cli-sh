@@ -1,0 +1,92 @@
+#!/bin/bash
+
+# Determine the directory of this script
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Source common libraries
+source "${SCRIPT_DIR}/../lib/common.sh"
+
+usage() {
+    echo "Usage: $0 example [options]"
+    echo ""
+    echo "Options:"
+    echo "  --configure TYPE     Configure system (network, user, or service)"
+    echo "  --list TYPE          List configuration (network, user, or service)"
+    echo "  --help               Show this help message"
+}
+
+# Parse options
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --configure)
+            ACTION="configure"
+            TYPE="$2"
+            shift 2
+            ;;
+        --list)
+            ACTION="list"
+            TYPE="$2"
+            shift 2
+            ;;
+        --help)
+            usage
+            exit 0
+            ;;
+        *)
+            echo "Unknown option: $1"
+            usage
+            exit 1
+            ;;
+    esac
+done
+
+# Validate input
+if [ -z "$ACTION" ] || [ -z "$TYPE" ]; then
+    handle_error "Both action and type must be specified"
+fi
+
+if [ "$ACTION" != "configure" ] && [ "$ACTION" != "list" ]; then
+    handle_error "Invalid action: $ACTION"
+fi
+
+if [ "$TYPE" != "network" ] && [ "$TYPE" != "user" ] && [ "$TYPE" != "service" ]; then
+    handle_error "Invalid type: $TYPE"
+fi
+
+# Implement subcommand logic
+case "$ACTION" in
+    configure)
+        case "$TYPE" in
+            network)
+                echo "Configuring network..."
+                # Add network configuration logic here
+                ;;
+            user)
+                echo "Configuring user..."
+                # Add user configuration logic here
+                ;;
+            service)
+                echo "Configuring service..."
+                # Add service configuration logic here
+                ;;
+        esac
+        ;;
+    list)
+        case "$TYPE" in
+            network)
+                echo "Listing network configuration..."
+                # Add network listing logic here
+                ;;
+            user)
+                echo "Listing user configuration..."
+                # Add user listing logic here
+                ;;
+            service)
+                echo "Listing service configuration..."
+                # Add service listing logic here
+                ;;
+        esac
+        ;;
+esac
+
+log_message "Completed $ACTION $TYPE"
