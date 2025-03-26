@@ -16,7 +16,6 @@ We have released a CLI tool implemented in reference to the [bsdinstall](https:/
 
 ```
 ├── README.md
-├── LICENSE
 ├── skeleton-cli-sh
 ├── subcommands/
 │   └── example
